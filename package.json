@@ -1,0 +1,33 @@
+{
+  "name": "movies-explorer-api",
+  "version": "1.0.0",
+  "description": "Backend for Ya.Practicum course project",
+  "main": "server.ts",
+  "scripts": {
+    "test": "jest",
+    "start": "node ./dist/server.js",
+    "build": "tsc -p tsconfig.prod.json",
+    "dev": "nodemon ./src/server.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Harpica/movies-explorer-api.git"
+  },
+  "keywords": [],
+  "author": "Alexandra Kadykova",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Harpica/movies-explorer-api/issues"
+  },
+  "homepage": "https://github.com/Harpica/movies-explorer-api#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.1.4",
+    "express": "^4.18.2",
+    "mongoose": "^7.2.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22",
+    "ts-node": "^10.9.1"
+  }
+}
