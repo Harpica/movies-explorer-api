@@ -1,8 +1,10 @@
-import { Model, Schema, model } from 'mongoose';
+import { Model, Schema, Types, model } from 'mongoose';
 import isEmail from 'validator/lib/isEmail';
 import bcrypt from 'bcrypt';
+import UnauthorizedError from '../utils/errors/UnauthorizedError';
 
 interface IUser {
+  _id: Types.ObjectId;
   name: string;
   email: string;
   password: string;
@@ -58,7 +60,7 @@ userSchema.statics.validatePassword = function (password, hash) {
 userSchema.statics.findUserByCredentials = async function (email, password) {
   const user = await this.findOne({ email }).select('+password');
   if (!user || !this.validatePassword(password, user.password)) {
-    throw new Error('Email or password is incorrect');
+    throw new UnauthorizedError('Email or password is incorrect');
   }
   const newUser = user.getUserWithRemovedPassport();
   return newUser;

@@ -1,7 +1,8 @@
 import { Schema, Types, model } from 'mongoose';
 import isURL from 'validator/lib/isURL';
 
-interface IMovie {
+export interface IMovie {
+  _id: Types.ObjectId;
   country: string;
   director: string;
   duration: number;

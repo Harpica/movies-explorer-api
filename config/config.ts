@@ -7,6 +7,8 @@ export const CLIENT_URL =
   NODE_ENV === 'production' ? process.env.CLIENT_URL : 'http://localhost:3000';
 export const SERVER_PORT = process.env.SERVER_PORT || 5000;
 
+export const JWT_KEY = process.env.JWT_KEY || 'somejwtkey';
+
 const MONGODB_HOST = process.env.MONGODB_HOST || 'localhost';
 const MONGODB_PORT = process.env.MONGODB_PORT || 27017;
 const MONGODB_NAME = process.env.MONGODB_NAME || 'bitfilmsdb';
@@ -16,4 +18,4 @@ export const MONGODB_URI = `mongodb://${
   MONGODB_USERNAME !== '' && MONGODB_PASSWORD !== ''
     ? `${MONGODB_USERNAME}:${MONGODB_PASSWORD}@`
     : ''
-}${MONGODB_HOST}:${MONGODB_PORT}/${MONGODB_NAME}`;
+}${MONGODB_HOST}:${MONGODB_PORT}/${MONGODB_NAME}?authSource=admin`;

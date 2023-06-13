@@ -1,9 +1,10 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import routes from './routes';
-import { CLIENT_URL, MONGODB_URI, SERVER_PORT } from './utils/constants';
+import { CLIENT_URL, MONGODB_URI, SERVER_PORT } from '../config/config';
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(
     credentials: true,
   })
 );
+app.use(helmet());
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
