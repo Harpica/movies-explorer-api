@@ -48,7 +48,7 @@ describe('Users endpoints', () => {
     const response = await request
       .patch('/users/me')
       .set('Cookie', [`jwt=${token}`])
-      .send({ data: { name: 'New Mock Name' } });
+      .send({ name: 'New Mock Name' });
 
     expect(response.status).toBe(200);
     expect(response.body.user._id).toBe(userId);
@@ -74,7 +74,7 @@ describe('Users endpoints', () => {
     const response = await request
       .patch('/users/me')
       .set('Cookie', [`jwt=${token}`])
-      .send({ data: { name: 'New Mock Name' } });
+      .send({ name: 'New Mock Name' });
 
     expect(response.status).toBe(404);
   });
@@ -86,7 +86,7 @@ describe('Users endpoints', () => {
     const response = await request
       .patch('/users/me')
       .set('Cookie', [`jwt=${token}`])
-      .send({ data: { email: 'none' } });
+      .send({ email: 'none' });
 
     expect(response.status).toBe(400);
   });

@@ -1,11 +1,10 @@
 import supertest from 'supertest';
-import app from '../../src/app';
 import BadRequestError from '../../src/utils/errors/BadRequestError';
 import errorHandler from '../../src/middlewares/errorHandler';
-
-const request = supertest(app);
+import express from 'express';
 
 describe('Handle http and server errors', () => {
+  const app = express();
   app.get('/http-error', (_req, _res, next) => {
     next(new BadRequestError('Error message'));
   });
@@ -13,6 +12,8 @@ describe('Handle http and server errors', () => {
     next(new Error('Error message'));
   });
   app.use(errorHandler);
+
+  const request = supertest(app);
 
   it('Returns error message and status code according to error in case of HTTP error', async () => {
     const response = await request.get('/http-error');
