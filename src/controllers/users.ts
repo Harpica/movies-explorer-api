@@ -30,7 +30,7 @@ export const updateUser = async (
 ) => {
   try {
     const id = req.user._id;
-    const userData: { email: string; name: string } = req.body.data;
+    const userData: { email: string; name: string } = req.body;
     const user = await User.findByIdAndUpdate(id, userData, {
       new: true,
       runValidators: true,

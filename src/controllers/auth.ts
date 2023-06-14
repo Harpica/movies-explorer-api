@@ -44,7 +44,7 @@ export const signIn = async (
   next: NextFunction
 ) => {
   try {
-    const { email, password } = req.body.data;
+    const { email, password } = req.body;
     const user = await User.findUserByCredentials(email, password);
     const token = jwt.sign({ _id: user._id }, JWT_KEY, { expiresIn: '7d' });
     res

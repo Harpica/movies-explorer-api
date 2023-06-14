@@ -33,7 +33,7 @@ export const saveMovie = async (
 ) => {
   try {
     const owner = req.user;
-    const movieData: Omit<IMovie, 'owner'> = req.body.data;
+    const movieData: Omit<IMovie, 'owner'> = req.body;
     const movies = await Movie.create({
       ...movieData,
       owner: owner,
