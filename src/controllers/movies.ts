@@ -8,15 +8,15 @@ import { MOVIE_NOT_FOUND } from '../utils/constants';
 export const getMovies = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const owner = req.user;
     const movies = await Movie.find({
-      owner: owner,
+      owner,
     });
 
-    res.send({ movies: movies });
+    res.send({ movies });
   } catch (err) {
     if (err instanceof Error.ValidationError) {
       next(new BadRequestError());
@@ -29,17 +29,17 @@ export const getMovies = async (
 export const saveMovie = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const owner = req.user;
     const movieData: Omit<IMovie, 'owner'> = req.body;
     const movie = await Movie.create({
       ...movieData,
-      owner: owner,
+      owner,
     });
 
-    res.send({ movie: movie });
+    res.send({ movie });
   } catch (err) {
     if (err instanceof Error.ValidationError) {
       next(new BadRequestError());
@@ -52,14 +52,14 @@ export const saveMovie = async (
 export const deleteMovie = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const owner = req.user._id;
-    const id = req.params.id;
+    const { id } = req.params;
     await Movie.deleteOne({
       _id: id,
-      owner: owner,
+      owner,
     }).orFail(new DocumentNotFoundError(MOVIE_NOT_FOUND));
 
     res.send({ deletedMovieId: id });

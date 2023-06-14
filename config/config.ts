@@ -3,8 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const NODE_ENV = process.env.NODE_ENV || 'develop';
-export const CLIENT_URL =
-  NODE_ENV === 'production' ? process.env.CLIENT_URL : 'http://localhost:3000';
+export const CLIENT_URL = NODE_ENV === 'production' ? process.env.CLIENT_URL : 'http://localhost:3000';
 export const SERVER_PORT = process.env.SERVER_PORT || 5000;
 
 export const JWT_KEY = process.env.JWT_KEY || 'somejwtkey';

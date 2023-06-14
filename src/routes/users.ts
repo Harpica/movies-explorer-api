@@ -1,8 +1,8 @@
 import { Router } from 'express';
+import { celebrate } from 'celebrate';
 import { getUser, updateUser } from '../controllers/users';
 import authChecker from '../middlewares/authChecker';
 import validator from '../utils/validator';
-import { celebrate } from 'celebrate';
 
 const users = Router();
 

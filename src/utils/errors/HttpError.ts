@@ -1,5 +1,5 @@
 class HttpError extends Error {
-  statusCode: number = 400;
+  statusCode = 400;
 }
 
 export default HttpError;

@@ -7,18 +7,12 @@ import User from '../../src/models/user';
 
 const request = supertest(app);
 
-beforeAll(() => {
-  return mongoose.connect(MONGODB_URI);
-});
+beforeAll(() => mongoose.connect(MONGODB_URI));
 
-afterAll(() => {
-  return mongoose.disconnect();
-});
+afterAll(() => mongoose.disconnect());
 
 describe('Auth endpoints', () => {
-  afterAll(() => {
-    return User.deleteOne({ name: MOCK_USER.name });
-  });
+  afterAll(() => User.deleteOne({ name: MOCK_USER.name }));
 
   it('POST /signup - Creates new user', async () => {
     const response = await request.post('/signup').send(MOCK_USER);

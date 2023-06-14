@@ -1,7 +1,7 @@
 import supertest from 'supertest';
+import express from 'express';
 import BadRequestError from '../../src/utils/errors/BadRequestError';
 import errorHandler from '../../src/middlewares/errorHandler';
-import express from 'express';
 
 describe('Handle http and server errors', () => {
   const app = express();

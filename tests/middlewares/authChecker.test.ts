@@ -1,14 +1,14 @@
 import supertest from 'supertest';
 import express from 'express';
-import authChecker from '../../src/middlewares/authChecker';
 import jwt from 'jsonwebtoken';
-import { JWT_KEY } from '../../config/config';
 import cookieParser from 'cookie-parser';
+import authChecker from '../../src/middlewares/authChecker';
+import { JWT_KEY } from '../../config/config';
 
 describe('Checks for jwt payload', () => {
   const app = express();
   app.use(cookieParser());
-  app.get('/test-user', authChecker, (req, res, _next) => {
+  app.get('/test-user', authChecker, (req, res) => {
     res.send({ user: req.user });
   });
   const token = jwt.sign({ _id: 'test-user-id' }, JWT_KEY, {

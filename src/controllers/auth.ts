@@ -1,10 +1,10 @@
 import { NextFunction, Response } from 'express';
 import { Request } from 'express-serve-static-core';
 import jwt from 'jsonwebtoken';
+import { Error } from 'mongoose';
 import User from '../models/user';
 import { JWT_KEY } from '../../config/config';
 import BadRequestError from '../utils/errors/BadRequestError';
-import { Error } from 'mongoose';
 import ConflictError from '../utils/errors/ConflictError';
 import {
   EMAIL_USED,
@@ -20,11 +20,10 @@ export const signUp = async (
   try {
     const userData = req.body;
     userData.password = User.generateHash(userData.password);
-    const user = await User.create(userData).then((user) => {
-      return user.getUserWithRemovedPassport();
-    });
+    const newUser = await User.create(userData);
+    const user = newUser.getUserWithRemovedPassport();
 
-    res.send({ user: user });
+    res.send({ user });
   } catch (err: any) {
     if (err.name === 'MongoServerError' && err.code === 11000) {
       next(new ConflictError(EMAIL_USED));
@@ -52,16 +51,12 @@ export const signIn = async (
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
       })
-      .send({ user: user });
+      .send({ user });
   } catch (err) {
     next(err);
   }
 };
 
-export const signOut = async (
-  _req: Request,
-  res: Response,
-  _next: NextFunction
-) => {
+export const signOut = async (_req: Request, res: Response) => {
   res.clearCookie('jwt', { httpOnly: true }).send({ message: TOKEN_CLEARED });
 };

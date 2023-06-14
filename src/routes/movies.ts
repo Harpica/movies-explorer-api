@@ -1,8 +1,8 @@
 import { Router } from 'express';
+import { celebrate } from 'celebrate';
 import authChecker from '../middlewares/authChecker';
 import validator from '../utils/validator';
 import { deleteMovie, getMovies, saveMovie } from '../controllers/movies';
-import { celebrate } from 'celebrate';
 
 const movies = Router();
 

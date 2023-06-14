@@ -4,11 +4,9 @@ import app from './app';
 
 mongoose
   .connect(MONGODB_URI)
-  .then(() =>
-    app.listen(SERVER_PORT, () => {
-      console.log('Listening to', SERVER_PORT);
-    })
-  )
+  .then(() => app.listen(SERVER_PORT, () => {
+    console.log('Listening to', SERVER_PORT);
+  }))
   .catch((err) => {
     console.error('message:', err.message);
   });

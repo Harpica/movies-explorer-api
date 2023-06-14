@@ -7,7 +7,8 @@
     "test": "jest",
     "start": "node ./dist/src/server.js",
     "build": "tsc -p tsconfig.prod.json",
-    "dev": "nodemon ./src/server.ts"
+    "dev": "nodemon ./src/server.ts",
+    "lint": "npx eslint ."
   },
   "repository": {
     "type": "git",
@@ -46,6 +47,10 @@
     "@types/jest": "^29.5.2",
     "@types/jsonwebtoken": "^9.0.2",
     "@types/validator": "^13.7.17",
+    "eslint": "^8.35.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-plugin-import": "^2.27.5",
     "nodemon": "^2.0.22",
     "ts-jest": "^29.1.0",
     "ts-node": "^10.9.1"

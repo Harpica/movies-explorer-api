@@ -5,7 +5,7 @@ const errorHandler = (
   err: Error,
   _req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   if (err instanceof HttpError) {
     res.status(err.statusCode).send({ message: err.message });

@@ -1,4 +1,6 @@
-import { Model, Schema, Types, model } from 'mongoose';
+import {
+  Model, Schema, Types, model,
+} from 'mongoose';
 import isEmail from 'validator/lib/isEmail';
 import bcrypt from 'bcrypt';
 import UnauthorizedError from '../utils/errors/UnauthorizedError';
@@ -14,7 +16,7 @@ interface IUserMethods {
   getUserWithRemovedPassport: () => Omit<IUser, 'password'>;
 }
 
-interface UserModel extends Model<IUser, {}, IUserMethods> {
+interface UserModel extends Model<IUser, object, IUserMethods> {
   generateHash: (password: string) => string;
   validatePassword: (password: string, hash: string) => boolean;
   findUserByCredentials: (
@@ -43,21 +45,27 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>({
   },
 });
 
-userSchema.methods.getUserWithRemovedPassport = function () {
+userSchema.methods.getUserWithRemovedPassport = function getUserWithRemovedPassport() {
   const user = this.toObject();
   delete user.password;
   return user;
 };
 
-userSchema.statics.generateHash = function (password) {
+userSchema.statics.generateHash = function generateHash(password) {
   return bcrypt.hashSync(password, bcrypt.genSaltSync());
 };
 
-userSchema.statics.validatePassword = function (password, hash) {
+userSchema.statics.validatePassword = function validatePassword(
+  password,
+  hash,
+) {
   return bcrypt.compareSync(password, hash);
 };
 
-userSchema.statics.findUserByCredentials = async function (email, password) {
+userSchema.statics.findUserByCredentials = async function findUserByCredentials(
+  email,
+  password,
+) {
   const user = await this.findOne({ email }).select('+password');
   if (!user || !this.validatePassword(password, user.password)) {
     throw new UnauthorizedError('Email or password is incorrect');

@@ -1,13 +1,13 @@
 import jwt from 'jsonwebtoken';
-import UnauthorizedError from '../utils/errors/UnauthorizedError';
-import { JWT_KEY } from '../../config/config';
 import { NextFunction, Response } from 'express';
 import { Request } from 'express-serve-static-core';
+import UnauthorizedError from '../utils/errors/UnauthorizedError';
+import { JWT_KEY } from '../../config/config';
 
 const authChecker = async (
   req: Request,
   _res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const token = req.cookies.jwt;

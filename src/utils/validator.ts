@@ -1,7 +1,8 @@
 import { Joi } from 'celebrate';
+import joi from 'joi';
 import isURL from 'validator/lib/isURL';
 
-const validateUrl = (value: string, helper: any) => {
+const validateUrl = (value: string, helper: joi.CustomHelpers<string>) => {
   if (!isURL(value)) {
     return helper.message({ custom: 'Value is not valid url' });
   }
