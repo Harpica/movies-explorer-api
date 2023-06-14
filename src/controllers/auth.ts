@@ -6,6 +6,11 @@ import { JWT_KEY } from '../../config/config';
 import BadRequestError from '../utils/errors/BadRequestError';
 import { Error } from 'mongoose';
 import ConflictError from '../utils/errors/ConflictError';
+import {
+  EMAIL_USED,
+  INCORRECT_DATA_USER_CREATION,
+  TOKEN_CLEARED,
+} from '../utils/constants';
 
 export const signUp = async (
   req: Request,
@@ -22,11 +27,11 @@ export const signUp = async (
     res.send({ user: user });
   } catch (err: any) {
     if (err.name === 'MongoServerError' && err.code === 11000) {
-      next(new ConflictError('This e-mail is already used'));
+      next(new ConflictError(EMAIL_USED));
       return;
     }
     if (err instanceof Error.ValidationError) {
-      next(new BadRequestError('Incorrect data for user creation'));
+      next(new BadRequestError(INCORRECT_DATA_USER_CREATION));
       return;
     }
     next(err);
@@ -58,5 +63,5 @@ export const signOut = async (
   res: Response,
   _next: NextFunction
 ) => {
-  res.clearCookie('jwt', { httpOnly: true }).send({ message: 'Token cleared' });
+  res.clearCookie('jwt', { httpOnly: true }).send({ message: TOKEN_CLEARED });
 };

@@ -4,6 +4,7 @@ import User from '../models/user';
 import BadRequestError from '../utils/errors/BadRequestError';
 import DocumentNotFoundError from '../utils/errors/DocumentNotFoundError';
 import { Request } from 'express-serve-static-core';
+import { USER_NOT_FOUND } from '../utils/constants';
 
 export const getUser = async (
   req: Request,
@@ -11,17 +12,13 @@ export const getUser = async (
   next: NextFunction
 ) => {
   try {
-    const id = req.user;
+    const id = req.user._id;
     const user = await User.findById(id).orFail(
-      new DocumentNotFoundError('User with current _id is not found')
+      new DocumentNotFoundError(USER_NOT_FOUND)
     );
 
     res.send({ user: user });
   } catch (err) {
-    if (err instanceof Error.ValidationError) {
-      next(new BadRequestError());
-      return;
-    }
     next(err);
   }
 };
@@ -32,12 +29,12 @@ export const updateUser = async (
   next: NextFunction
 ) => {
   try {
-    const id = req.user;
+    const id = req.user._id;
     const userData: { email: string; name: string } = req.body.data;
     const user = await User.findByIdAndUpdate(id, userData, {
       new: true,
       runValidators: true,
-    }).orFail(new DocumentNotFoundError('User with current _id is not found'));
+    }).orFail(new DocumentNotFoundError(USER_NOT_FOUND));
 
     res.send({ user: user });
   } catch (err) {

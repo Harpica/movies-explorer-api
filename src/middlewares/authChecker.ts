@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
-import UnauthorizedError from '../utils/errors/UnauthorizedError.js';
-import { JWT_KEY } from '../../config/config.js';
+import UnauthorizedError from '../utils/errors/UnauthorizedError';
+import { JWT_KEY } from '../../config/config';
 import { NextFunction, Response } from 'express';
 import { Request } from 'express-serve-static-core';
 
@@ -12,7 +12,7 @@ const authChecker = async (
   try {
     const token = req.cookies.jwt;
     const payload = jwt.verify(token, JWT_KEY);
-    req.user = payload.toString();
+    req.user = { _id: (payload as jwt.JwtPayload)._id };
     next();
   } catch (err) {
     next(new UnauthorizedError('Authorization is required'));

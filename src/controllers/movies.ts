@@ -3,6 +3,7 @@ import { Error } from 'mongoose';
 import BadRequestError from '../utils/errors/BadRequestError';
 import Movie, { IMovie } from '../models/movie';
 import DocumentNotFoundError from '../utils/errors/DocumentNotFoundError';
+import { MOVIE_NOT_FOUND } from '../utils/constants';
 
 export const getMovies = async (
   req: Request,
@@ -54,16 +55,12 @@ export const deleteMovie = async (
   next: NextFunction
 ) => {
   try {
-    const owner = req.user;
+    const owner = req.user._id;
     const id = req.params.id;
     const deletedMovie = await Movie.deleteOne({
       _id: id,
       owner: owner,
-    }).orFail(
-      new DocumentNotFoundError(
-        "Movie is not found in the current user's collection"
-      )
-    );
+    }).orFail(new DocumentNotFoundError(MOVIE_NOT_FOUND));
 
     res.send({ movie: deletedMovie });
   } catch (err) {
