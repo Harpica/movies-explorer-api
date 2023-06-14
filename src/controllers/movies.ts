@@ -34,12 +34,12 @@ export const saveMovie = async (
   try {
     const owner = req.user;
     const movieData: Omit<IMovie, 'owner'> = req.body;
-    const movies = await Movie.create({
+    const movie = await Movie.create({
       ...movieData,
       owner: owner,
     });
 
-    res.send({ movies: movies });
+    res.send({ movie: movie });
   } catch (err) {
     if (err instanceof Error.ValidationError) {
       next(new BadRequestError());
@@ -57,12 +57,12 @@ export const deleteMovie = async (
   try {
     const owner = req.user._id;
     const id = req.params.id;
-    const deletedMovie = await Movie.deleteOne({
+    await Movie.deleteOne({
       _id: id,
       owner: owner,
     }).orFail(new DocumentNotFoundError(MOVIE_NOT_FOUND));
 
-    res.send({ movie: deletedMovie });
+    res.send({ deletedMovieId: id });
   } catch (err) {
     if (err instanceof Error.ValidationError) {
       next(new BadRequestError());
