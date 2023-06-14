@@ -1,6 +1,6 @@
 {
   "extends": "./tsconfig",
-  "exclude": ["**/*.test.ts"],
+  "exclude": ["**/*.test.ts", "tests"],
   "compilerOptions": {
     "rootDir": "./",
     "outDir": "./dist"

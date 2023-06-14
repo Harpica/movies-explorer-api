@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+
+  db:
+    container_name: movies-explorer-mongodb
+    image: mongo
+    env_file: .env
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGODB_NAME}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
+    volumes:
+      - mongodb:/var/lib/recommendish/mongodb
+    ports:
+      - "${MONGODB_PORT}:27017"
+    restart: unless-stopped
+    networks:
+      - backend
+
+  node:
+    container_name: movies-explorer-node
+    depends_on:
+      - db
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - CLIENT_URL=$CLIENT_URL
+      - SERVER_PORT=$SERVER_PORT
+      - JWT_KEY=$JWT_KEY
+      - MONGODB_NAME=$MONGODB_NAME
+      - MONGODB_HOST=$MONGODB_HOST
+      - MONGODB_PORT=$MONGODB_PORT
+      - MONGODB_USERNAME=$MONGODB_USERNAME
+      - MONGODB_PASSWORD=$MONGODB_PASSWORD
+    volumes:
+      - ~/logs/movies-explorer:/server/dist/logs:rw
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT}"
+    expose:
+      - "${SERVER_PORT}"
+    networks:
+      - backend
+
+
+volumes:
+  mongodb:
+
+
+networks:
+  backend:
