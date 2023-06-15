@@ -10,11 +10,11 @@ const app = express();
 
 app.use(corsHandler);
 app.use(helmet());
+app.use(requestLogger);
 app.use(rateLimiter);
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(requestLogger);
 
 app.use('/', routes);
 

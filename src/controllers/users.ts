@@ -4,17 +4,18 @@ import { Request } from 'express-serve-static-core';
 import User from '../models/user';
 import BadRequestError from '../utils/errors/BadRequestError';
 import DocumentNotFoundError from '../utils/errors/DocumentNotFoundError';
-import { USER_NOT_FOUND } from '../utils/constants';
+import { EMAIL_USED, USER_NOT_FOUND } from '../utils/constants';
+import ConflictError from '../utils/errors/ConflictError';
 
 export const getUser = async (
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) => {
   try {
     const id = req.user._id;
     const user = await User.findById(id).orFail(
-      new DocumentNotFoundError(USER_NOT_FOUND),
+      new DocumentNotFoundError(USER_NOT_FOUND)
     );
 
     res.send({ user });
@@ -26,7 +27,7 @@ export const getUser = async (
 export const updateUser = async (
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) => {
   try {
     const id = req.user._id;
@@ -37,7 +38,11 @@ export const updateUser = async (
     }).orFail(new DocumentNotFoundError(USER_NOT_FOUND));
 
     res.send({ user });
-  } catch (err) {
+  } catch (err: any) {
+    if (err.code === 11000) {
+      next(new ConflictError(EMAIL_USED));
+      return;
+    }
     if (err instanceof Error.ValidationError) {
       next(new BadRequestError());
       return;
