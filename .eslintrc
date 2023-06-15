@@ -1,0 +1,26 @@
+{
+  "env": {
+    "es2021": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "extends": [
+        "airbnb-base",
+        "airbnb-typescript/base",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended"
+      ],
+      "parserOptions": {
+        "parser": "@typescript-eslint/parser",
+        "project": "tsconfig.json",
+        "sourceType": "module"
+      },
+      "rules": {
+        "no-underscore-dangle": ["error", { "allow": ["_id"] }]
+      }
+    }
+  ]
+}
