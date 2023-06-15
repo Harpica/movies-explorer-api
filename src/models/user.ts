@@ -4,6 +4,7 @@ import {
 import isEmail from 'validator/lib/isEmail';
 import bcrypt from 'bcrypt';
 import UnauthorizedError from '../utils/errors/UnauthorizedError';
+import { INCORRECT_CREDENTIALS, INVALID_EMAIL } from '../utils/constants';
 
 interface IUser {
   _id: Types.ObjectId;
@@ -36,7 +37,7 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>({
     type: String,
     unique: true,
     required: true,
-    validate: [isEmail, 'Value is not valid email'],
+    validate: [isEmail, INVALID_EMAIL],
   },
   password: {
     type: String,
@@ -68,7 +69,7 @@ userSchema.statics.findUserByCredentials = async function findUserByCredentials(
 ) {
   const user = await this.findOne({ email }).select('+password');
   if (!user || !this.validatePassword(password, user.password)) {
-    throw new UnauthorizedError('Email or password is incorrect');
+    throw new UnauthorizedError(INCORRECT_CREDENTIALS);
   }
   const newUser = user.getUserWithRemovedPassport();
   return newUser;

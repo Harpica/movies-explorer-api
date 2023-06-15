@@ -1,10 +1,11 @@
 import { Joi } from 'celebrate';
 import joi from 'joi';
 import isURL from 'validator/lib/isURL';
+import { INVALID_URL } from './constants';
 
 const validateUrl = (value: string, helper: joi.CustomHelpers<string>) => {
   if (!isURL(value)) {
-    return helper.message({ custom: 'Value is not valid url' });
+    return helper.message({ custom: INVALID_URL });
   }
   return value;
 };
@@ -28,8 +29,8 @@ const validator = {
   users: {
     update: {
       body: Joi.object().keys({
-        email: Joi.string().email(),
-        name: Joi.string().min(2).max(30),
+        email: Joi.string().email().required(),
+        name: Joi.string().min(2).max(30).required(),
       }),
     },
   },

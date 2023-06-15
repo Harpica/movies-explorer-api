@@ -1,7 +1,8 @@
+import { UNAUTHORIZED } from '../constants';
 import HttpError from './HttpError';
 
 class UnauthorizedError extends HttpError {
-  constructor(message = 'Unauthorized') {
+  constructor(message = UNAUTHORIZED) {
     super(message);
     this.statusCode = 401;
   }

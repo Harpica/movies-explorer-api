@@ -1,5 +1,6 @@
 import { Schema, Types, model } from 'mongoose';
 import isURL from 'validator/lib/isURL';
+import { INVALID_URL } from '../utils/constants';
 
 export interface IMovie {
   _id: Types.ObjectId;
@@ -41,17 +42,17 @@ const movieSchema = new Schema<IMovie>({
   image: {
     type: String,
     required: true,
-    validate: [isURL, 'Value is not valid URL'],
+    validate: [isURL, INVALID_URL],
   },
   trailerLink: {
     type: String,
     required: true,
-    validate: [isURL, 'Value is not valid URL'],
+    validate: [isURL, INVALID_URL],
   },
   thumbnail: {
     type: String,
     required: true,
-    validate: [isURL, 'Value is not valid URL'],
+    validate: [isURL, INVALID_URL],
   },
   owner: {
     type: Schema.Types.ObjectId,

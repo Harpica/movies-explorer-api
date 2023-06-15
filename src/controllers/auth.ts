@@ -15,7 +15,7 @@ import {
 export const signUp = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const userData = req.body;
@@ -25,7 +25,7 @@ export const signUp = async (
 
     res.send({ user });
   } catch (err: any) {
-    if (err.name === 'MongoServerError' && err.code === 11000) {
+    if (err.code === 11000) {
       next(new ConflictError(EMAIL_USED));
       return;
     }
@@ -40,7 +40,7 @@ export const signUp = async (
 export const signIn = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const { email, password } = req.body;

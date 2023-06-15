@@ -1,7 +1,8 @@
+import { FORBIDDEN } from '../constants';
 import HttpError from './HttpError';
 
 class ForbiddenError extends HttpError {
-  constructor(message = 'Access is forbidden') {
+  constructor(message = FORBIDDEN) {
     super(message);
     this.statusCode = 403;
   }

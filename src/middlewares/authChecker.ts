@@ -3,6 +3,7 @@ import { NextFunction, Response } from 'express';
 import { Request } from 'express-serve-static-core';
 import UnauthorizedError from '../utils/errors/UnauthorizedError';
 import { JWT_KEY } from '../../config/config';
+import { REQUIRED_AUTH } from '../utils/constants';
 
 const authChecker = async (
   req: Request,
@@ -15,7 +16,7 @@ const authChecker = async (
     req.user = { _id: (payload as jwt.JwtPayload)._id };
     next();
   } catch (err) {
-    next(new UnauthorizedError('Authorization is required'));
+    next(new UnauthorizedError(REQUIRED_AUTH));
   }
 };
 

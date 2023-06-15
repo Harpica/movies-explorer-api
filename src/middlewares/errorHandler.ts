@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import HttpError from '../utils/errors/HttpError';
+import { SERVER_ERROR } from '../utils/constants';
 
 const errorHandler = (
   err: Error,
@@ -12,7 +13,7 @@ const errorHandler = (
     next();
     return;
   }
-  res.status(500).send({ message: 'Server Error' });
+  res.status(500).send({ message: SERVER_ERROR });
   next();
 };
 
