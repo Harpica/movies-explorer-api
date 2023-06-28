@@ -15,7 +15,7 @@ import {
 export const signUp = async (
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) => {
   try {
     const userData = req.body;
@@ -23,7 +23,14 @@ export const signUp = async (
     const newUser = await User.create(userData);
     const user = newUser.getUserWithRemovedPassport();
 
-    res.send({ user });
+    const token = jwt.sign({ _id: user._id }, JWT_KEY, { expiresIn: '7d' });
+
+    res
+      .cookie('jwt', token, {
+        maxAge: 3600000 * 24 * 7,
+        httpOnly: true,
+      })
+      .send({ user });
   } catch (err: any) {
     if (err.code === 11000) {
       next(new ConflictError(EMAIL_USED));
@@ -40,7 +47,7 @@ export const signUp = async (
 export const signIn = async (
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) => {
   try {
     const { email, password } = req.body;
